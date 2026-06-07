@@ -17,7 +17,7 @@ vim.opt.autoindent = true   -- Auto-indent current line
 
 
 -- Enable mouse support
-vim.opt.mouse = 'a'
+vim.opt.mouse = ""
 
 -- Show matching parentheses
 vim.opt.showmatch = true
@@ -29,3 +29,5 @@ vim.opt.clipboard = 'unnamedplus'
 vim.opt.showmode = false
 
 vim.opt.termguicolors = true
+
+

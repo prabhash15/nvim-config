@@ -31,7 +31,6 @@ return {
       -- Adjusts spacing to ensure icons are aligned
       nerd_font_variant = 'mono'
     },
-
     -- (Default) Only show the documentation popup when manually triggered
     completion = { documentation = { auto_show = false } },
 
