@@ -13,7 +13,11 @@ return {
       lua_ls = {},
       pyright = {},
       clangd = {},
-      gopls = {},
+      gopls = {
+        -- Neovim 0.12 health warns about lspconfig's optional 'gotmpl' filetype
+        -- unless a gotmpl filetype plugin is installed. Keep Go core filetypes clean.
+        filetypes = { 'go', 'gomod', 'gowork' },
+      },
       bashls = {}
     },
   },
@@ -21,6 +25,33 @@ return {
   config = function(_, opts)
     local blink = require('blink.cmp')
     local mason_lspconfig = require('mason-lspconfig')
+
+    vim.diagnostic.config({
+      virtual_text = { spacing = 2, prefix = '●' },
+      severity_sort = true,
+      float = { border = 'rounded', source = 'if_many' },
+    })
+
+    vim.api.nvim_create_autocmd('LspAttach', {
+      group = vim.api.nvim_create_augroup('PrabhashLspKeymaps', { clear = true }),
+      callback = function(event)
+        local map = function(lhs, rhs, desc)
+          vim.keymap.set('n', lhs, rhs, { buffer = event.buf, silent = true, desc = desc })
+        end
+
+        map('K', function()
+          vim.lsp.buf.hover({ border = 'rounded' })
+        end, 'LSP hover documentation')
+        map('gd', vim.lsp.buf.definition, 'LSP go to definition')
+        map('gD', vim.lsp.buf.declaration, 'LSP go to declaration')
+        map('gr', vim.lsp.buf.references, 'LSP references')
+        map('<leader>rn', vim.lsp.buf.rename, 'LSP rename')
+        map('<leader>ca', vim.lsp.buf.code_action, 'LSP code action')
+        map('<leader>e', vim.diagnostic.open_float, 'Line diagnostics')
+        map('[d', vim.diagnostic.goto_prev, 'Previous diagnostic')
+        map(']d', vim.diagnostic.goto_next, 'Next diagnostic')
+      end,
+    })
 
     -- Get autocomplete capabilities
     local base_capabilities = blink.get_lsp_capabilities()
