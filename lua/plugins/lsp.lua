@@ -1,7 +1,7 @@
 
 return {
   'neovim/nvim-lspconfig',
-  dependencies = { 
+  dependencies = {
     'saghen/blink.cmp',
     'williamboman/mason.nvim',
     'williamboman/mason-lspconfig.nvim',
@@ -10,17 +10,31 @@ return {
   opts = {
     -- Servers you want installed and configured
     servers = {
-      lua_ls = {},
-      pyright = {},
-      clangd = {},
-      gopls = {
-        -- Neovim 0.12 health warns about lspconfig's optional 'gotmpl' filetype
-        -- unless a gotmpl filetype plugin is installed. Keep Go core filetypes clean.
-        filetypes = { 'go', 'gomod', 'gowork' },
-      },
-      bashls = {}
+        lua_ls = {
+            settings = {
+                Lua = {
+                    runtime = {
+                        version = 'LuaJIT',
+                    },
+                    diagnostics = {
+                        globals = { 'vim' },
+                    },
+                    workspace = {
+                        checkThirdParty = false,
+                        library = vim.api.nvim_get_runtime_file('', true),
+                    },
+                },
+            },
+        },
+
+        pyright = {},
+        clangd = {},
+        gopls = {
+            filetypes = { 'go', 'gomod', 'gowork' },
+        },
+        bashls = {},
     },
-  },
+},
 
   config = function(_, opts)
     local blink = require('blink.cmp')
@@ -48,8 +62,6 @@ return {
         map('<leader>rn', vim.lsp.buf.rename, 'LSP rename')
         map('<leader>ca', vim.lsp.buf.code_action, 'LSP code action')
         map('<leader>e', vim.diagnostic.open_float, 'Line diagnostics')
-        map('[d', vim.diagnostic.goto_prev, 'Previous diagnostic')
-        map(']d', vim.diagnostic.goto_next, 'Next diagnostic')
       end,
     })
 
