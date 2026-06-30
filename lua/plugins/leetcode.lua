@@ -86,6 +86,6 @@ return {
 
     -- Extra options for advanced configurations
     theme = {},                         -- Can override internal highlights to match your colorscheme
-    image_support = true,              -- Set to true if you have 'image.nvim' installed for rendering asset images
+    image_support = require("prabhash.portable").supports_image_nvim(), -- Only enable when the active terminal/backend can render it
   },
 }

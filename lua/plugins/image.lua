@@ -1,9 +1,13 @@
 return {
   "3rd/image.nvim",
+  -- Keep the plugin installed, but lazy-load it for content that can use images.
+  -- LeetCode image support is separately guarded so non-Kitty/headless hosts do
+  -- not try to render images during normal startup or coding sessions.
+  ft = { "markdown", "vimwiki", "asciidoc", "adoc", "norg", "typst" },
   build = false, -- Skips building rocks as intended
   opts = {
-    backend = "kitty",        -- Using kitty protocol
-    processor = "magick_cli", -- Forcing the CLI processor to avoid rocks build issues
+    backend = "kitty",
+    processor = "magick_cli", -- Uses the portable ImageMagick CLI when present
     integrations = {
       markdown = {
         enabled = true,
@@ -37,7 +41,7 @@ return {
       html = { enabled = false },
       css = { enabled = false },
     },
-    
+
     max_width = nil,
     max_height = nil,
     max_width_window_percentage = nil,

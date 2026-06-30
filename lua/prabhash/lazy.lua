@@ -30,6 +30,9 @@ require("lazy").setup({
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
   install = { colorscheme = { "habamax" } },
+  -- No configured plugin currently requires LuaRocks. Disabling it avoids
+  -- machine-local hererocks paths and startup/healthcheck noise on fresh hosts.
+  rocks = { enabled = false },
   -- automatically check for plugin updates
   checker = { enabled = true },
 })

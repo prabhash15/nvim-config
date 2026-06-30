@@ -28,7 +28,9 @@ return {
         },
 
         pyright = {},
-        clangd = {},
+        clangd = {
+            filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
+        },
         gopls = {
             filetypes = { 'go', 'gomod', 'gowork' },
         },
